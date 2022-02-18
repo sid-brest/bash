@@ -1,2 +1,2 @@
 #!/bin/bash
-cat /etc/group
+cat /etc/group | cut -d ':' -f 1
