@@ -12,6 +12,7 @@ do
     echo "[$item] => ${value}"
 done | \
 ( mapfile; printf "%s" "${MAPFILE[@]}" )
+# sed -i 's/[*] => //g'
 echo "min=$min"
 echo "max=$max"
 echo "sum=$sum"
