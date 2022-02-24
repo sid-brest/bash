@@ -9,5 +9,9 @@
 #!/bin/bash
 array=$(seq 1 100)
 for item in ${array}; do
-
-done 
+    for [ $item -lt 30 ]; do
+        if [ $(expr $item % 2) == 0 ] && [ $item -le 85 ]; then
+          echo $item
+        fi
+    done
+done
