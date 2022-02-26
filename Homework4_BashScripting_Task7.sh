@@ -1,8 +1,6 @@
-# Using for loop output list of files in current directory with its owner.
-# Expected output:
-
-# [devops@localhost ~]$ ./04-get-files.sh
-#  Filename: file1, Owner: devops
-#  Filename: file2, Owner: devops
-#  ...
 #!/bin/bash
+touch file1 file2 file3 file4 file5
+currentdir=pwd
+for file in $currentdir; do
+  find -name 'file*' -type f -printf "Filename: %f, Owner: %u\n" | sort
+done
