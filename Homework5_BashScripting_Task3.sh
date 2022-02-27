@@ -9,7 +9,6 @@ dirfileinfo() {
             echo "Type: $type" 
             echo "Permissions: $permissions" 
             echo "-------"
-
     done 
 }
 dirfileinfo $1
