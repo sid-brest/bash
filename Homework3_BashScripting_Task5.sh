@@ -19,7 +19,7 @@ sum=0
 for i in "${NUMBERARRAY[@]}"; do
   (( i > max )) && max=$i
   (( i < min )) && min=$i
-#   Let zdd each item to the total count
+#   Let add each item to the total count
   let sum+=$i
 done
 echo "min=$min"
