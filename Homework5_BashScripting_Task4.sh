@@ -1,7 +1,7 @@
 #!/bin/bash
 mathfunc() {
-    amount=0
-    product=1
+    local amount=0
+    local product=1
     for args in $@; do
         let amount+=$args
         ((product*=$args))
