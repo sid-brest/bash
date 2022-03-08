@@ -1,7 +1,11 @@
 #!/bin/bash
 cat accounts.csv | awk 'BEGIN {OFS=FS=","};
-    NR>1 {
-        split($5, names, " ");
-        for(i in names)
+   NR > 1 {
+        split($5, names, " ")
+        $7 = tolower($5"@abc.com")
+        split($7, email, " ")
+        for (i in names) 
             sub(names[i], toupper(substr(names[i], 1, 1))substr(names[i], 2), $5)
-        }1' > accounts_new.csv
+        for (i in email)
+            sub(email[i], substr(email[i]%% *, 1, 1)substr(email[i]##* ,(index(email[i]," ")+1)), $7)
+    }; 1' > accounts_new.csv
