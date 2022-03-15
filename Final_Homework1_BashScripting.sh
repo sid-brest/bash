@@ -1,5 +1,5 @@
 #!/bin/bash
-cat accounts.csv | awk 'BEGIN {OFS=FS=","};
+cat accounts.csv | awk 'BEGIN {OFS=","; FPAT="([^,]*)|(\"[^\"]+\")"};
     # Perform the action for lines starting from the 2nd
    NR > 1 {
     # Divide string into pieces separated by fieldsep to array
