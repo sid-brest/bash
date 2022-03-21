@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "512"
     end
     zserver.vm.network "private_network", ip: "192.168.56.10"
-    zserver.vm.box_check_update = false
+    # zserver.vm.box_check_update = false
     # zserver.vm.provision "shell", path: "zserver_install.sh"
   end
 
@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "512"
     end
     zagent.vm.network "private_network" , ip: "192.168.56.20"
-    zagent.vm.box_check_update = false
+    # zagent.vm.box_check_update = false
     # zagent.vm.provision "shell", path: "zagent_install.sh"
   end
 

@@ -1,0 +1,12 @@
+Log created: 2022-03-21T13:14:09.397028000Z
+Process ID:  97678 (0x17d8e)
+Parent PID:  1 (0x1)
+Executable:  /usr/lib/virtualbox/VBoxHeadless
+Arg[0]: /usr/lib/virtualbox/VBoxHeadless
+Arg[1]: --comment
+Arg[2]: ZabbixVM_zserver_1647816940879_38299
+Arg[3]: --startvm
+Arg[4]: 87b30ab9-06b0-4d03-b75b-9bbfe2f1ae3f
+Arg[5]: --vrde
+Arg[6]: config
+AddRef: illegal refcnt=3221225469 state=2
