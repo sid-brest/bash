@@ -1,5 +1,5 @@
 #!/bin/bash
-# disable SELinux on CentOS
+# disable SELinux
 sudo setenforce 0
 sudo sed -i 's/^SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config
 # install & update packages
