@@ -5,7 +5,7 @@ sudo setenforce 0
 sudo sed -i 's/^SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config
 
 # install & update packages
-sudo yum -y update
+# sudo yum -y update
 sudo yum -y install nano
 sudo yum -y install httpd
 sudo systemctl enable httpd
@@ -19,19 +19,19 @@ sudo yum -y install mariadb-server
 sudo systemctl enable --now mariadb
 
 # create initial database
-mysql -uroot -e "UPDATE mysql.user SET Password = PASSWORD('zabbix') WHERE User = 'root'"
+sudo mysql -uroot -e "UPDATE mysql.user SET Password = PASSWORD('zabbix') WHERE User = 'root'"
 sudo systemctl restart mariadb
-mysql -uroot -pzabbix -e "DROP USER ''@'localhost'"
-mysql -uroot -pzabbix -e "DROP USER ''@'$(hostname)'"
-mysql -uroot -pzabbix -e "DROP DATABASE test"
-mysql -uroot -pzabbix -e "FLUSH PRIVILEGES"
-mysql -uroot -pzabbix -e "CREATE DATABASE zabbix character set utf8 collate utf8_bin"
-mysql -uroot -pzabbix -e "CREATE USER 'zabbix'@'localhost' identified by 'zabbixpass'"
-mysql -uroot -pzabbix -e "GRANT all privileges on zabbix.* to 'zabbix'@'localhost'"
-mysql -uroot -pzabbix -e "QUIT"
+sudo mysql -uroot -pzabbix -e "DROP USER ''@'localhost'"
+sudo mysql -uroot -pzabbix -e "DROP USER ''@'$(hostname)'"
+sudo mysql -uroot -pzabbix -e "DROP DATABASE test"
+sudo mysql -uroot -pzabbix -e "FLUSH PRIVILEGES"
+sudo mysql -uroot -pzabbix -e "CREATE DATABASE zabbix character set utf8 collate utf8_bin"
+sudo mysql -uroot -pzabbix -e "CREATE USER 'zabbix'@'localhost' identified by 'zabbixpass'"
+sudo mysql -uroot -pzabbix -e "GRANT all privileges on zabbix.* to 'zabbix'@'localhost'"
+sudo mysql -uroot -pzabbix -e "QUIT"
 
 # configure zabbix
-zcat /usr/share/doc/mariadb-server-mysql*/create.sql.gz | mysql -uzabbix -pzabbixpass --database=zabbix
+sudo zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | sudo mysql -uzabbix -pzabbixpass --database=zabbix
 echo "DBPassword=zabbix" | sudo tee -a /etc/zabbix/zabbix_server.conf
 sudo systemctl start zabbix-server
 sudo systemctl enable zabbix-server
