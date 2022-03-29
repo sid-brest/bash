@@ -5,7 +5,7 @@ sudo setenforce 0
 sudo sed -i 's/^SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config
 
 # install & update packages
-# sudo yum -y update
+sudo yum -y update
 sudo yum -y install nano
 sudo yum -y install httpd
 sudo systemctl enable httpd
@@ -32,7 +32,7 @@ sudo mysql -uroot -pzabbix -e "QUIT"
 
 # configure zabbix
 sudo zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | sudo mysql -uzabbix -pzabbixpass --database=zabbix
-echo "DBPassword=zabbix" | sudo tee -a /etc/zabbix/zabbix_server.conf
+echo "DBPassword=zabbixpass" | sudo tee -a /etc/zabbix/zabbix_server.conf
 sudo systemctl start zabbix-server
 sudo systemctl enable zabbix-server
 echo "php_value[date.timezone] = Europe/Minsk" | sudo tee -a /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf
