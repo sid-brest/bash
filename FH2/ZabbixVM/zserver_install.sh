@@ -11,7 +11,7 @@ sudo yum -y install httpd
 sudo systemctl enable httpd
 sudo systemctl restart httpd
 sudo rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
-sudo yum install -y zabbix-server-mysql zabbix-get
+sudo yum install -y zabbix-server-mysql zabbix-get zabbix-agent
 sudo yum-config-manager --enable zabbix-frontend
 sudo yum -y install centos-release-scl
 sudo yum -y install zabbix-web-mysql-scl zabbix-apache-conf-scl
@@ -33,9 +33,9 @@ sudo mysql -uroot -pzabbix -e "QUIT"
 # configure zabbix
 sudo zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | sudo mysql -uzabbix -pzabbixpass --database=zabbix
 echo "DBPassword=zabbixpass" | sudo tee -a /etc/zabbix/zabbix_server.conf
-sudo systemctl start zabbix-server
+sudo systemctl start zabbix-server 
 sudo systemctl enable zabbix-server
 echo "php_value[date.timezone] = Europe/Minsk" | sudo tee -a /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf
 sudo setsebool -P httpd_can_connect_zabbix on
-sudo systemctl enable rh-php72-php-fpm
-sudo systemctl restart zabbix-server httpd rh-php72-php-fpm
+sudo systemctl enable zabbix-agent rh-php72-php-fpm 
+sudo systemctl restart zabbix-server zabbix-agent httpd rh-php72-php-fpm
