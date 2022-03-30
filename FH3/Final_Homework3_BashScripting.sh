@@ -5,6 +5,7 @@ cat accounts.csv | awk 'BEGIN {OFS=","; FPAT="([^,]*)|(\"[^\"]+\")"} {$5=$5 "," 
 sed -i 's/name/userid/2' accounts_temp.csv
 cat accounts_temp.csv | awk 'BEGIN {OFS=","; 
                                    FPAT="([^,]*)|(\"[^\"]+\")"} {
+# Select the array value as original string
     $6 = tolower($6)
     split($6, userid)
         for (m in userid) {
