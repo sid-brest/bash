@@ -1,29 +1,19 @@
 #!/bin/bash
 # duplicate column "name"
-# a bug in GNU Awk version 4.0.2 with FPAT duplicates the comma, so we get an empty column
-cat accounts.csv | awk 'BEGIN {OFS=","; FPAT="([^,]*)|(\"[^\"]+\")"} {$5=$5 "," $5} 1' > accounts_new.csv
-sed -i 's/name/userid/2' accounts_new.csv
-
-
-#     # Divide string into pieces separated by fieldsep to array
-#         split($5, names, " ")
-#     # Toupper first letters
-#         for (i in names) {
-#             sub(names[i], toupper(substr(names[i], 1, 1))substr(names[i], 2), $5)
-#         }
-#     # Check if the user has email, and if not, add
-#         if ($7!~/@/) {
-#             $7 = tolower($5)"@abc.com"
-#     # Select the array value as original string
-#             split($7, email)
-#     # Leave name first letter & remove strings before last name
-#         for (m in email) {
-#                 sub(email[m], substr(email[m], 1, 1)gensub(/.*\ /, "", "g", substr(email[m], 2)), $7)
-#                 }
-#         }
-#     # Check duplicates and add number after username
-#         for (k in email) {
-#                 split($7, email)
-#                 (email[k] in array) ? sub(/@/, array[email[k]]"@", $7) : $7; array[email[k]]++
-#         }        
-# }; 1' > accounts_new.csv
+# P.s. A bug in GNU Awk version 4.0.2 with FPAT duplicates the comma, so we may get an empty column
+cat accounts.csv | awk 'BEGIN {OFS=","; FPAT="([^,]*)|(\"[^\"]+\")"} {$5=$5 "," $5} 1' > accounts_temp.csv
+sed -i 's/name/userid/2' accounts_temp.csv
+cat accounts_temp.csv | awk 'BEGIN {OFS=","; 
+                                   FPAT="([^,]*)|(\"[^\"]+\")"} {
+    $6 = tolower($6)
+    split($6, userid)
+        for (m in userid) {
+           sub(userid[m], substr(userid[m], 1, 1)gensub(/.*\ /, "", "g", substr(userid[m], 2)), $6)
+        }
+# Check duplicates userid and add number after userid
+        for (k in userid) {
+            split($6, userid)
+            (userid[k] in array) ? sub(userid[k], userid[k]array[userid[k]], $6) : $6; array[userid[k]]++
+        }    
+} 1' > accounts_new.csv
+rm accounts_temp.csv 
