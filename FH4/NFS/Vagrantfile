@@ -1,0 +1,30 @@
+# Vagrant.configure("2") do |config|
+#   config.vm.define "zserver" do |zserver|
+#     zserver.vm.box = "centos/7"
+#     zserver.vm.hostname = "zserver"
+#     zserver.vm.provider "virtualbox" do |vb|
+#       vb.memory = "512"
+#     end
+#     if Vagrant.has_plugin?("vagrant-vbguest") then
+#       zserver.vbguest.auto_update = false
+#       zserver.vbguest.installer_options = { allow_kernel_upgrade: true }  
+#     end
+#     zserver.vm.synced_folder ".", "/vagrant", type: "rsync"
+#     zserver.vm.network "private_network", ip: "192.168.56.10"
+#     zserver.vm.provision "shell", path: "zserver_install.sh"
+#   end
+#   config.vm.define "zagent" do |zagent|
+#     zagent.vm.box = "centos/7"
+#     zagent.vm.hostname = "zagent"
+#     zagent.vm.provider "virtualbox" do |vb|
+#       vb.memory = "512"
+#     end
+#     if Vagrant.has_plugin?("vagrant-vbguest") then
+#       zagent.vbguest.auto_update = false
+#       zagent.vbguest.installer_options = { allow_kernel_upgrade: true }  
+#     end
+#     zagent.vm.synced_folder ".", "/vagrant", type: "rsync"
+#     zagent.vm.network "private_network" , ip: "192.168.56.20"
+#     zagent.vm.provision "shell", path: "zagent_install.sh"
+#   end
+# end
