@@ -1,30 +1,63 @@
-# Vagrant.configure("2") do |config|
-#   config.vm.define "zserver" do |zserver|
-#     zserver.vm.box = "centos/7"
-#     zserver.vm.hostname = "zserver"
-#     zserver.vm.provider "virtualbox" do |vb|
-#       vb.memory = "512"
-#     end
-#     if Vagrant.has_plugin?("vagrant-vbguest") then
-#       zserver.vbguest.auto_update = false
-#       zserver.vbguest.installer_options = { allow_kernel_upgrade: true }  
-#     end
-#     zserver.vm.synced_folder ".", "/vagrant", type: "rsync"
-#     zserver.vm.network "private_network", ip: "192.168.56.10"
-#     zserver.vm.provision "shell", path: "zserver_install.sh"
-#   end
-#   config.vm.define "zagent" do |zagent|
-#     zagent.vm.box = "centos/7"
-#     zagent.vm.hostname = "zagent"
-#     zagent.vm.provider "virtualbox" do |vb|
-#       vb.memory = "512"
-#     end
-#     if Vagrant.has_plugin?("vagrant-vbguest") then
-#       zagent.vbguest.auto_update = false
-#       zagent.vbguest.installer_options = { allow_kernel_upgrade: true }  
-#     end
-#     zagent.vm.synced_folder ".", "/vagrant", type: "rsync"
-#     zagent.vm.network "private_network" , ip: "192.168.56.20"
-#     zagent.vm.provision "shell", path: "zagent_install.sh"
-#   end
-# end
+$serverinstall = <<-'SCRIPT'
+sudo yum -y update
+sudo yum install -y nfs-utils
+sudo mkdir /var/nfsshare
+sudo chmod -R 755 /var/nfsshare
+sudo chown nfsnobody:nfsnobody /var/nfsshare
+sudo systemctl enable rpcbind
+sudo systemctl enable nfs-server
+sudo systemctl enable nfs-lock
+sudo systemctl enable nfs-idmap
+sudo systemctl start rpcbind
+sudo systemctl start nfs-server
+sudo systemctl start nfs-lock
+sudo systemctl start nfs-idmap
+echo "/var/nfsshare    192.168.56.101(rw,sync,no_root_squash,no_all_squash)" | sudo tee -a /etc/exports
+echo "/home            192.168.56.101(rw,sync,no_root_squash,no_all_squash)" | sudo tee -a /etc/exports
+sudo systemctl restart nfs-server
+sudo firewall-cmd --permanent --zone=public --add-service=nfs
+sudo firewall-cmd --permanent --zone=public --add-service=mountd
+sudo firewall-cmd --permanent --zone=public --add-service=rpc-bind
+sudo firewall-cmd --reload
+SCRIPT
+
+$clientinstall = <<-'SCRIPT'
+sudo yum -y update
+sudo yum install -y nfs-utils
+sudo mkdir -p /mnt/nfs/home
+sudo mkdir -p /mnt/nfs/var/nfsshare
+sudo mount -t nfs 192.168.56.100:/home         /mnt/nfs/home/
+sudo mount -t nfs 192.168.56.100:/var/nfsshare /mnt/nfs/var/nfsshare/
+echo "192.168.56.100:/home    /mnt/nfs/home   nfs defaults 0 0" | sudo tee -a /etc/fstab
+echo "192.168.56.100:/var/nfsshare    /mnt/nfs/var/nfsshare   nfs defaults 0 0" | sudo tee -a /etc/fstab
+SCRIPT
+Vagrant.configure("2") do |config|
+  config.vm.define "server" do |server|
+    server.vm.box = "centos/7"
+    server.vm.hostname = "server"
+    server.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+    end
+    if Vagrant.has_plugin?("vagrant-vbguest") then
+      server.vbguest.auto_update = false
+      server.vbguest.installer_options = { allow_kernel_upgrade: true }  
+    end
+    server.vm.synced_folder ".", "/vagrant", type: "rsync"
+    server.vm.network "private_network", ip: "192.168.56.100"
+    server.vm.provision "shell", inline: $serverinstall
+  end
+  config.vm.define "client" do |client|
+    client.vm.box = "centos/7"
+    client.vm.hostname = "client"
+    client.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+    end
+    if Vagrant.has_plugin?("vagrant-vbguest") then
+      client.vbguest.auto_update = false
+      client.vbguest.installer_options = { allow_kernel_upgrade: true }  
+    end
+    client.vm.synced_folder ".", "/vagrant", type: "rsync"
+    client.vm.network "private_network" , ip: "192.168.56.101"
+    client.vm.provision "shell", inline: $clientinstall
+  end
+end
