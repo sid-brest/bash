@@ -15,10 +15,10 @@ sudo systemctl start nfs-idmap
 echo "/var/nfsshare    192.168.56.101(rw,sync,no_root_squash,no_all_squash)" | sudo tee -a /etc/exports
 echo "/home            192.168.56.101(rw,sync,no_root_squash,no_all_squash)" | sudo tee -a /etc/exports
 sudo systemctl restart nfs-server
-sudo firewall-cmd --permanent --zone=public --add-service=nfs
-sudo firewall-cmd --permanent --zone=public --add-service=mountd
-sudo firewall-cmd --permanent --zone=public --add-service=rpc-bind
-sudo firewall-cmd --reload
+# sudo firewall-cmd --permanent --zone=public --add-service=nfs
+# sudo firewall-cmd --permanent --zone=public --add-service=mountd
+# sudo firewall-cmd --permanent --zone=public --add-service=rpc-bind
+# sudo firewall-cmd --reload
 SCRIPT
 
 $clientinstall = <<-'SCRIPT'
