@@ -28,10 +28,11 @@ sudo yum -y update
 sudo yum install -y nfs-utils nano
 sudo mkdir -p /mnt/nfs/home
 sudo mkdir -p /mnt/nfs/var/nfsshare
-sudo mount -t nfs 192.168.56.100:/home         /mnt/nfs/home/
-sudo mount -t nfs 192.168.56.100:/var/nfsshare /mnt/nfs/var/nfsshare/
 echo "192.168.56.100:/home    /mnt/nfs/home   nfs defaults 0 0" | sudo tee -a /etc/fstab
 echo "192.168.56.100:/var/nfsshare    /mnt/nfs/var/nfsshare   nfs defaults 0 0" | sudo tee -a /etc/fstab
+sudo mount -t nfs 192.168.56.100:/home         /mnt/nfs/home/
+sudo mount -t nfs 192.168.56.100:/var/nfsshare /mnt/nfs/var/nfsshare/
+df -kh
 SCRIPT
 
 Vagrant.configure("2") do |config|
