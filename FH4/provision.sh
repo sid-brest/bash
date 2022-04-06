@@ -6,10 +6,10 @@ whatinstall() {
     elif [[ $input == "client" ]]; then
         (cd ./NFS && vagrant up client --provision)
     else
-        echo "Please type 'server' or 'client' only" 
+        echo "Please type 'server' or 'client'" 
     fi
 }
-whatinstall "Choose what to configure: server or client"
+whatinstall "Select what to configure"
    if [ -z $input ]; then
         echo "Parameter is empty. Restart the shell script"
    fi 
