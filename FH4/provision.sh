@@ -1,6 +1,15 @@
 #!/bin/bash
-# delete vagrant boxes on your system:
-# vagrant box list | cut -f 1 -d ' ' | xargs -L 1 vagrant box remove -f
-(cd ./NFS && vagrant up server --provision)
-(cd ./NFS && vagrant up client --provision)
-(cd ./FNS && vagrant vbguest)
+whatinstall() {
+  read -p "$1"": " input
+    if [[ $input == "server" ]]; then
+        (cd ./NFS && vagrant up server --provision)
+    elif [[ $input == "client" ]]; then
+        (cd ./NFS && vagrant up client --provision)
+    else
+        echo "Please type 'server' or 'client' only" 
+    fi
+}
+whatinstall "Choose what to configure: server or client"
+   if [ -z $input ]; then
+        echo "Parameter is empty. Restart the shell script"
+   fi 
