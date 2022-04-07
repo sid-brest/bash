@@ -3,10 +3,8 @@ whatinstall() {
   read -p "$1"": " input
     if [[ $input == "server" ]]; then
         (cd ./NFS && vagrant up server --provision)
-        (cd ./NFS && vagrant reload server --provision)
     elif [[ $input == "client" ]]; then
-        (cd ./NFS && vagrant up client --provision)
-        (cd ./NFS && vagrant reload client --provision)
+        (cd ./NFS && vagrant up client --provision)    
     else
         echo "Please type 'server' or 'client'" 
     fi

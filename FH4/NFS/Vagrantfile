@@ -1,7 +1,7 @@
 $serverinstall = <<-'SCRIPT'
 sudo yum -y update
 sudo yum install -y nfs-utils nano firewalld
-sudo mkdir /var/nfsshare
+sudo mkdir -p /var/nfsshare
 sudo chmod -R 755 /var/nfsshare
 sudo chown nfsnobody:nfsnobody /var/nfsshare
 sudo systemctl enable rpcbind
@@ -12,9 +12,9 @@ sudo systemctl start rpcbind
 sudo systemctl start nfs-server
 sudo systemctl start nfs-lock
 sudo systemctl start nfs-idmap
-echo "/var/nfsshare    192.168.56.101(rw,sync,no_root_squash,no_all_squash)" | sudo tee -a /etc/exports
+echo "/var/nfsshare    192.168.56.101(rw,sync,no_root_squash,no_all_squash)" | sudo tee /etc/exports
 echo "/home            192.168.56.101(rw,sync,no_root_squash,no_all_squash)" | sudo tee -a /etc/exports
-sudo systemctl restart nfs-server
+sudo systemctl restart nfs-server nfs-lock nfs-idmap
 sudo systemctl enable firewalld
 sudo systemctl start firewalld
 sudo firewall-cmd --permanent --zone=public --add-service=nfs
@@ -28,10 +28,10 @@ sudo yum -y update
 sudo yum install -y nfs-utils nano
 sudo mkdir -p /mnt/nfs/home
 sudo mkdir -p /mnt/nfs/var/nfsshare
-echo "192.168.56.100:/home    /mnt/nfs/home   nfs defaults 0 0" | sudo tee -a /etc/fstab
+sudo mount -t nfs 192.168.56.100:/home         /mnt/nfs/home
+sudo mount -t nfs 192.168.56.100:/var/nfsshare /mnt/nfs/var/nfsshare
+echo "192.168.56.100:/home    /mnt/nfs/home   nfs defaults 0 0" | sudo tee /etc/fstab
 echo "192.168.56.100:/var/nfsshare    /mnt/nfs/var/nfsshare   nfs defaults 0 0" | sudo tee -a /etc/fstab
-sudo mount -t nfs 192.168.56.100:/home         /mnt/nfs/home/
-sudo mount -t nfs 192.168.56.100:/var/nfsshare /mnt/nfs/var/nfsshare/
 df -kh
 SCRIPT
 
