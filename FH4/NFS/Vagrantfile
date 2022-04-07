@@ -24,7 +24,6 @@ sudo firewall-cmd --permanent --zone=public --add-service=mountd
 sudo firewall-cmd --permanent --zone=public --add-service=rpc-bind
 sudo firewall-cmd --reload
 SCRIPT
-
 $clientinstall = <<-'SCRIPT'
 sudo yum -y update
 sudo yum install -y nfs-utils nano
