@@ -8,5 +8,5 @@
 # remove all tasks in planner     
     crontab -r;
 # create daily backup task at 0:00 in planner
-    crontab -l | { cat; echo '0 0 * * * vagrant /vagrant/backup.sh >/dev/null 2>&1'; } | crontab -;
+    crontab -l | { cat; echo '0 0 * * * /vagrant/backup.sh 2>&1'; } | crontab -;
 ")
