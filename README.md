@@ -1,4 +1,2 @@
 # bash
-
-EPAM Scripting: Bash
-by Dzmitry Struneuski
+Bash by Dzmitry Struneuski
