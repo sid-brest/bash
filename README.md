@@ -1,2 +1,2 @@
 # bash
-Bash by Dzmitry Struneuski
+Bash Essentials by Dzmitry Struneuski
