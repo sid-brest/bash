@@ -21,13 +21,18 @@ else
          }
      # Check if the user has email, and if not, add
          if ($5!~/@/) {
-             $5 = tolower($3)$2"@abc.com"
+             $5 = tolower($3)
      # Select the array value as original string
              split($5, email, ".")
      # Leave name first letter & remove strings and whitespace before last name
          for (m in email) {
                  sub(email[m], substr(email[m], 1, 1)gensub(/.*[[:blank:]]/, "", "g", substr(email[m], 2)), $5)
                  }
+    # Check duplicates email & add location_id + @abc.com  
+         for (k in email) {
+            split($5, email)
+            (email[k] in array) ? sub(email[k], email[k]$2"@abc.com", $5) : sub(email[k], email[k]"@abc.com", $5); array[email[k]]++
+        }
          }        
 }; 1' > $OutputPath 
 fi
