@@ -3,7 +3,6 @@
 if [ -z "$1" ]; then
     echo "No argument provided. Type path, please!"
 else
-    InputPath="$1"
     OutputPath=$(echo $1 | sed 's/.csv/_new.csv/g')
     cat $1 | awk 'BEGIN {OFS=",";
      # Definite fields by Content with commas 

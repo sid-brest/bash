@@ -3,7 +3,6 @@
 if [ -z "$1" ]; then
     echo "No argument provided. Type path, please!"
 else
-    InputPath="$1"
     OutputPath=$(echo $1 | sed 's/.txt/.json/g')
 # Write the name of the test into a variable using the commands head & sed
     testname=$(head -n 1 $1 | cut -d ' ' -f 2,3)
