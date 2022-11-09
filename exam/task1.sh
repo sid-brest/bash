@@ -3,12 +3,9 @@
 if [ -z "$1" ]; then
     echo "No argument provided. Type path, please!"
 else
-    path="$1"
-    InputFileName="accounts.csv"
-    OutputFileName="accounts_new.csv"
-    InputPath="$1/$InputFileName"
-    OutputPath="$1/$OutputFileName"
-    cat $InputPath | awk 'BEGIN {OFS=",";
+    InputPath="$1"
+    OutputPath=$(echo $1 | sed 's/.csv/_new.csv/g')
+    cat $1 | awk 'BEGIN {OFS=",";
      # Definite fields by Content with commas 
                                 FPAT="([^,]*)|(\"[^\"]+\")"};
      # Perform the action for lines starting from the 2nd
