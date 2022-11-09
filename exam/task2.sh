@@ -1,7 +1,8 @@
 #!/bin/bash
 # Check empty argument
 if [ -z "$1" ]; then
-    echo "No argument provided. Type path, please!"
+    echo "No path to file provided. Type path as argument, please!"
+    exit
 else
     OutputPath=$(echo $1 | sed 's/.txt/.json/g')
 # Write the name of the test into a variable using the commands head & sed
