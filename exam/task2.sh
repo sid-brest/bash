@@ -3,20 +3,17 @@
 if [ -z "$1" ]; then
     echo "No argument provided. Type path, please!"
 else
-    path="$1"
-    InputFileName="output.txt"
-    OutputFileName="output.json"
-    InputPath="$1/$InputFileName"
-    OutputPath="$1/$OutputFileName"
-# Remove lines start with no character using multiple pattern in sed
-    sed '/^\[/d;/^\-/d;/^[0-9]/d' $InputPath > testdata.txt
+    InputPath="$1"
+    OutputPath=$(echo $1 | sed 's/.txt/.json/g')
 # Write the name of the test into a variable using the commands head & sed
-    testname=$(head -n 1 $InputPath | cut -d ' ' -f 2,3)
-    success=$(tail -n 1 $InputPath | cut -d ' ' -f 1)
-    failed=$(tail -n 1 $InputPath | cut -d ' ' -f 6)
-    rating=$(tail -n 1 $InputPath | cut -d ' ' -f 11 | tr -d %, | bc)
-    duration=$(tail -n 1 $InputPath | cut -d ' ' -f 13)  
+    testname=$(head -n 1 $1 | cut -d ' ' -f 2,3)
+    success=$(tail -n 1 $1 | cut -d ' ' -f 1)
+    failed=$(tail -n 1 $1 | cut -d ' ' -f 6)
+    rating=$(tail -n 1 $1 | cut -d ' ' -f 11 | tr -d %, | bc)
+    duration=$(tail -n 1 $1 | cut -d ' ' -f 13)  
 fi
+# Remove lines start with no character using multiple pattern in sed
+sed '/^\[/d;/^\-/d;/^[0-9]/d' $1 > testdata.txt
 # Prepare data to import for awk 
 sed -i -e 's/not ok  /false|/g' \
        -e 's/ok  /true|/g' \
